@@ -21,6 +21,9 @@ public class Transaction {
 
 
     }
+
+
+
     // created getters and setters so that I am able to access my private fields when I create or update new fields in an object
     public String getDate() {
         return date;
