@@ -66,6 +66,19 @@ public class Transaction {
     }
 
 
+    public String toFileString() {
+        return date + "|" + time + "|"
+                + description + "|"
+                + vendor + "|" + amount;
+    }
 
+    // toString()
+// Java calls this automatically when you do System.out.println(t)
+// it prints the transaction in neat columns
+// without this it would print:  com.pluralsight.Transaction@7ef88735
+    @Override
+    public String toString() {
+        return String.format("%-12s %-10s %-22s %-18s %10.2f",
+                date, time, description, vendor, amount);
 
-}
+}}
