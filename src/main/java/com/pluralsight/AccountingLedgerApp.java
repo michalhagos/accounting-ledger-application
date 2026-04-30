@@ -1,22 +1,22 @@
 package com.pluralsight;
 
-import java.io.File;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AccountingLedgerApp {
+    static DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+    static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     // created a Scanner to accept the user input it should be a static so that all the methods use it
     static Scanner theScanner = new Scanner(System.in);
-// creating new constant variable for my transaction.csv file
+    // creating new constant variable for my transaction.csv file
     static final String FILE_NAME = "src/main/resources/transactions.csv";
-    static ArrayList<Transaction> transactions = new ArrayList <>();
+    static ArrayList<Transaction> transactions = new ArrayList<>();
 
 
     public static void main(String[] args) {
-
 
 
         // create a variable isRunning to create a while loop that shows the menu repeatedly
@@ -38,10 +38,11 @@ public class AccountingLedgerApp {
 // use a switch statement to match the choice to the methods
             switch (choice) {
                 case "D":
-                    //addDeposit();
+                    addDeposit();
                     break;
                 case "P":
-                    System.out.println("wait for the payment the method ");;
+                   addPayment();
+
                     break;
                 case "L":
                     ledgerScreen();
@@ -181,11 +182,11 @@ public class AccountingLedgerApp {
                 // only process the line if it has exactly 5 parts
                 // this protects us from blank lines or badly formatted lines
                 if (parts.length == 5) {
-                    String date        = parts[0]; // e.g. 2023-04-15
-                    String time        = parts[1]; // e.g. 10:13:25
+                    String date = parts[0]; // e.g. 2023-04-15
+                    String time = parts[1]; // e.g. 10:13:25
                     String description = parts[2]; // e.g. ergonomic keyboard
-                    String vendor      = parts[3]; // e.g. Amazon
-                    double amount      = Double.parseDouble(parts[4]); // e.g. -89.50
+                    String vendor = parts[3]; // e.g. Amazon
+                    double amount = Double.parseDouble(parts[4]); // e.g. -89.50
 
                     // create a new Transaction object with the 5 values using the constructor
                     // and add it to our transactions ArrayList
@@ -201,6 +202,52 @@ public class AccountingLedgerApp {
         }
     }
 
+    public static void addDeposit() {
+        System.out.println("Vendor: ");
+        String vendor = theScanner.nextLine();
+        System.out.println("Description: ");
+        String description = theScanner.nextLine();
+        System.out.println("amount: ");
+        String amount = theScanner.nextLine();
 
+        LocalDateTime now = LocalDateTime.now();
+        Transaction deposit = new Transaction(now.format(dateFormatter), now.format(timeFormatter), description, vendor, Double.parseDouble(amount));
+            saveTransaction(deposit);
+
+    }
+
+    public static void saveTransaction(Transaction transaction) {
+
+        try {
+            // create a FileWriter //use appent set to true if you want to append to the file instead of overwrting the contents
+            FileWriter fileWriter = new FileWriter("src/main/resources/transaction.csv",true);
+            // create a BufferedWriter
+            BufferedWriter bufWriter = new BufferedWriter(fileWriter);
+            // write to the file
+            bufWriter.write(transaction.toFileString()+ "\n");
+
+            // close the writer
+            bufWriter.close();
+            fileWriter.close();
+        } catch (Exception e) {
+            System.out.println("ERROR: An unexpected error occurred");
+            e.getStackTrace();
+        }
+
+    }
+
+    public static void addPayment() {
+        System.out.println("Vendor: ");
+        String vendor = theScanner.nextLine();
+        System.out.println("Description: ");
+        String description = theScanner.nextLine();
+        System.out.println("amount: ");
+        String amount = theScanner.nextLine();
+
+        LocalDateTime now = LocalDateTime.now();
+        Transaction deposit = new Transaction(now.format(dateFormatter), now.format(timeFormatter), description, vendor, Double.parseDouble(amount) * -1);
+        saveTransaction(deposit);
+
+    }
 
 }
