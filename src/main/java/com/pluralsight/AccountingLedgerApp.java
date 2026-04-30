@@ -41,7 +41,7 @@ public class AccountingLedgerApp {
                     addDeposit();
                     break;
                 case "P":
-                   addPayment();
+                    addPayment();
 
                     break;
                 case "L":
@@ -81,7 +81,7 @@ public class AccountingLedgerApp {
             // below is a switch statement to match the user choice with the methods or back to the previous screen
             switch (choice) {
                 case "A":
-                   displayAllEntries();
+                    displayAllEntries();
                     break;
                 case "D":
                     System.out.println("call a method for printing all deposits )");
@@ -214,7 +214,7 @@ public class AccountingLedgerApp {
 
         LocalDateTime now = LocalDateTime.now();
         Transaction deposit = new Transaction(now.format(dateFormatter), now.format(timeFormatter), description, vendor, Double.parseDouble(amount));
-            saveTransaction(deposit);
+        saveTransaction(deposit);
 
     }
 
@@ -222,11 +222,11 @@ public class AccountingLedgerApp {
 
         try {
             // create a FileWriter //use appent set to true if you want to append to the file instead of overwrting the contents
-            FileWriter fileWriter = new FileWriter("src/main/resources/transaction.csv",true);
+            FileWriter fileWriter = new FileWriter("src/main/resources/transaction.csv", true);
             // create a BufferedWriter
             BufferedWriter bufWriter = new BufferedWriter(fileWriter);
             // write to the file
-            bufWriter.write(transaction.toFileString()+ "\n");
+            bufWriter.write(transaction.toFileString() + "\n");
 
             // close the writer
             bufWriter.close();
@@ -252,14 +252,33 @@ public class AccountingLedgerApp {
 
     }
 
-   public static void  displayAllEntries(){
-       loadFromFile();
-        for (Transaction transaction: transactions){
+    public static void displayAllEntries() {
+        loadFromFile();
+        for (Transaction transaction : transactions) {
             System.out.println(transaction.toString());
 
 
         }
 
-   }
+    }
 
+    public static void displayDepositEntries() {
+        loadFromFile();
+        for (Transaction transaction : transactions) {
+            System.out.println(transaction.toString());
+
+
+        }
+    }
+
+    public static void displayPaymentEntries() {
+        loadFromFile();
+        for (Transaction transaction : transactions) {
+            System.out.println(transaction.toString());
+
+
+        }
+
+
+    }
 }
