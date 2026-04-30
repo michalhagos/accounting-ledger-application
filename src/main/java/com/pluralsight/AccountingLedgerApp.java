@@ -12,7 +12,7 @@ public class AccountingLedgerApp {
     // created a Scanner to accept the user input it should be a static so that all the methods use it
     static Scanner theScanner = new Scanner(System.in);
     // creating new constant variable for my transaction.csv file
-    static final String FILE_NAME = "src/main/resources/transactions.csv";
+    static final String FILE_NAME = "src/main/resources/transaction.csv";
     static ArrayList<Transaction> transactions = new ArrayList<>();
 
 
@@ -81,7 +81,7 @@ public class AccountingLedgerApp {
             // below is a switch statement to match the user choice with the methods or back to the previous screen
             switch (choice) {
                 case "A":
-                    System.out.println("call a method for printing all entries ");
+                   displayAllEntries();
                     break;
                 case "D":
                     System.out.println("call a method for printing all deposits )");
@@ -156,6 +156,8 @@ public class AccountingLedgerApp {
     }
 
     static void loadFromFile() {
+        transactions.clear();
+
         // create a File object that points to my transactions.csv
         //  File class imported at the top to help
         File file = new File(FILE_NAME);
@@ -249,5 +251,15 @@ public class AccountingLedgerApp {
         saveTransaction(deposit);
 
     }
+
+   public static void  displayAllEntries(){
+       loadFromFile();
+        for (Transaction transaction: transactions){
+            System.out.println(transaction.toString());
+
+
+        }
+
+   }
 
 }
