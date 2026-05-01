@@ -136,7 +136,7 @@ public class AccountingLedgerApp {
                     reportMonthToDate();
                     break;
                 case 2:
-                    System.out.println("call Previous Month method  ");
+                    reportPreviousMonth();
                     break;
                 case 3:
                     System.out.println("call Year To Date method  ");
@@ -297,7 +297,23 @@ public class AccountingLedgerApp {
         }
     }
 
-
+    public static void reportPreviousMonth() {
+        // load all transactions from the csv file into the ArrayList
+        loadFromFile();
+        // get the current date and time
+        LocalDateTime now = LocalDateTime.now();
+        // subtract one month from today to get last month
+        LocalDateTime lastMonth = now.minusMonths(1);
+        // loop through each transaction and check if it belongs to last month
+        for (Transaction transaction : transactions) {
+            // parse the date string into a LocalDate object so we can compare it
+            LocalDate date = LocalDate.parse(transaction.getDate());
+            // only print if the transaction is in the same month and year as last month
+            if (date.getYear() == lastMonth.getYear() && date.getMonthValue() == lastMonth.getMonthValue()) {
+                System.out.println(transaction);
+            }
+        }
+    }
 
 
 

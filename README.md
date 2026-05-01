@@ -95,21 +95,6 @@ Deposits are positive amounts. Payments are stored as negative numbers.
 
 ---
 
-## What's Still In Progress
-
-A few things in the code are stubbed out and not fully wired up yet:
-
-- [ ] Filter ledger to show deposits only
-- [ ] Filter ledger to show payments only
-- [ ] Month To Date report
-- [ ] Previous Month report
-- [ ] Year To Date report
-- [ ] Previous Year report
-- [ ] Search by Vendor report
-
-These show placeholder print statements right now and will be completed soon.
-
----
 
 ## Author
 
