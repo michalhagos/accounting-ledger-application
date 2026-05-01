@@ -1,6 +1,7 @@
 package com.pluralsight;
 
 import java.io.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -132,7 +133,7 @@ public class AccountingLedgerApp {
 // create a switch statement to match the choice with the methods for different ways of showing the transaction history
             switch (choice) {
                 case 1:
-                    System.out.println("call Month To Date  method");
+                    reportMonthToDate();
                     break;
                 case 2:
                     System.out.println("call Previous Month method  ");
@@ -171,6 +172,7 @@ public class AccountingLedgerApp {
         try {
             // BufferedReader reads the file line by line
             BufferedReader bufReader = new BufferedReader(new FileReader(file));
+
             // declare a new string variable line
             String line;
 
@@ -257,7 +259,6 @@ public class AccountingLedgerApp {
         for (Transaction transaction : transactions) {
             System.out.println(transaction.toString());
 
-
         }
 
     }
@@ -280,7 +281,27 @@ public class AccountingLedgerApp {
             }
         }
     }
-}
+    public static void reportMonthToDate() {
+        // load all transactions from the csv file into the ArrayList
+        loadFromFile();
+        // get the current date and time
+        LocalDateTime now = LocalDateTime.now();
+        // loop through each transaction and check if it matches the current month and year
+        for (Transaction transaction : transactions) {
+            // parse the date string into a LocalDate object so we can compare it
+            LocalDate date = LocalDate.parse(transaction.getDate());
+            // only print if the transaction is in the same month and year as today
+            if (date.getYear() == now.getYear() && date.getMonthValue() == now.getMonthValue()) {
+                System.out.println(transaction);
+            }
+        }
+    }
+
+
+
+
+
+} // end of class
 
 
 
