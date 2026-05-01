@@ -84,10 +84,10 @@ public class AccountingLedgerApp {
                     displayAllEntries();
                     break;
                 case "D":
-                    System.out.println("call a method for printing all deposits )");
+                    displayDepositEntries();
                     break;
                 case "P":
-                    System.out.println("call a method for printing all payments )");
+                    displayPaymentEntries();
                     break;
                 case "R":
                     reportScreen();
@@ -251,7 +251,7 @@ public class AccountingLedgerApp {
         saveTransaction(deposit);
 
     }
-
+// added a method to show all the entries on the ledger screen
     public static void displayAllEntries() {
         loadFromFile();
         for (Transaction transaction : transactions) {
@@ -262,23 +262,17 @@ public class AccountingLedgerApp {
 
     }
 
+    // added a method to show only the deposit entries on the ledger screen
     public static void displayDepositEntries() {
         loadFromFile();
         for (Transaction transaction : transactions) {
-            System.out.println(transaction.toString());
-
-
+            if (transaction.getAmount() > 0) {
+                System.out.println(transaction);
+            }
         }
     }
 
-    public static void displayPaymentEntries() {
-        loadFromFile();
-        for (Transaction transaction : transactions) {
-            System.out.println(transaction.toString());
-
-
-        }
-
-
-    }
 }
+
+
+
