@@ -139,7 +139,7 @@ public class AccountingLedgerApp {
                     reportPreviousMonth();
                     break;
                 case 3:
-                    System.out.println("call Year To Date method  ");
+                    reportYearToDate();
                     break;
                 case 4:
                     System.out.println("call Previous Year method  ");
@@ -315,7 +315,21 @@ public class AccountingLedgerApp {
         }
     }
 
-
+    public static void reportYearToDate() {
+        // load all transactions from the csv file into the ArrayList
+        loadFromFile();
+        // get just the current year as an int to compare against
+        int currentYear = LocalDateTime.now().getYear();
+        // loop through each transaction and check if it belongs to the current year
+        for (Transaction transaction : transactions) {
+            // parse the date string into a LocalDate object so we can compare it
+            LocalDate date = LocalDate.parse(transaction.getDate());
+            // only print if the transaction year matches the current year
+            if (date.getYear() == currentYear) {
+                System.out.println(transaction);
+            }
+        }
+    }
 
 } // end of class
 
