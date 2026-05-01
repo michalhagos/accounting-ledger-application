@@ -1,11 +1,12 @@
 package com.pluralsight;
+
 // created a transaction Class that have 5 fields / variables on it
 public class Transaction {
     private String date;
 
     private String time;
 
-    private String  description;
+    private String description;
 
     private String vendor;
 
@@ -21,7 +22,6 @@ public class Transaction {
 
 
     }
-
 
 
     // created getters and setters so that I am able to access my private fields when I create or update new fields in an object
@@ -65,20 +65,20 @@ public class Transaction {
         this.amount = amount;
     }
 
-
+// this method is helping me for saving transactions to the CSV file using |
     public String toFileString() {
         return date + "|" + time + "|"
                 + description + "|"
                 + vendor + "|" + amount;
     }
 
-    // toString()
-// Java calls this automatically when you do System.out.println(t)
-// it prints the transaction in neat columns
-// without this it would print:  com.pluralsight.Transaction@7ef88735
+
+   // toString() formats the transaction for displaying on the screen in neat columns
+    // it is the standard Java method you overrode with @Override
     @Override
     public String toString() {
         return String.format("%-12s %-10s %-22s %-18s %10.2f",
                 date, time, description, vendor, amount);
 
-}}
+    }
+}

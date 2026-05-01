@@ -230,7 +230,7 @@ public class AccountingLedgerApp {
     public static void saveTransaction(Transaction transaction) {
 
         try {
-            // create a FileWriter //use appent set to true if you want to append to the file instead of overwrting the contents
+            // create a FileWriter //use append set to true if you want to append to the file instead of overwriting the contents
             FileWriter fileWriter = new FileWriter("src/main/resources/transaction.csv", true);
             // create a BufferedWriter
             BufferedWriter bufWriter = new BufferedWriter(fileWriter);
@@ -372,6 +372,7 @@ public class AccountingLedgerApp {
             }
         }
     }
+
     public static void reportCustomSearch() {
         // ask the user for each search field, they can leave any blank to skip that filter
         System.out.print("Start Date (yyyy-MM-dd) or press Enter to skip: ");
@@ -423,7 +424,7 @@ public class AccountingLedgerApp {
         }
     }
 
-} // end of class
+}
 
 
 
