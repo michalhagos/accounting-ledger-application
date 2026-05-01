@@ -101,12 +101,9 @@ public class AccountingLedgerApp {
                     System.out.println("Invalid Choice");
             }
 
-
         }
 
-
     }
-
     // create a method for the report screen to be show when the user chooses R in the ledger screen
     static void reportScreen() {
 // create a boolean variable to help run the while loop
@@ -145,7 +142,7 @@ public class AccountingLedgerApp {
                     reportPreviousYear();
                     break;
                 case 5:
-                    System.out.println("call Search Vendor method  ");
+                    reportSearchVendor();
                     break;
                 case 0:
                     isRunning = false;
@@ -346,7 +343,21 @@ public class AccountingLedgerApp {
             }
         }
     }
-
+    public static void reportSearchVendor() {
+        // ask the user to type the vendor name they want to search for
+        System.out.print("Enter vendor name to search: ");
+        // save the input, trim whitespace, and convert to lowercase for case-insensitive comparison
+        String vendorSearch = theScanner.nextLine().trim().toLowerCase();
+        // load all transactions from the csv file into the ArrayList
+        loadFromFile();
+        // loop through each transaction and check if the vendor name matches the search
+        for (Transaction transaction : transactions) {
+            // use contains() so a partial name match still works, e.g. "ama" finds "Amazon"
+            if (transaction.getVendor().toLowerCase().contains(vendorSearch)) {
+                System.out.println(transaction);
+            }
+        }
+    }
 
 
 } // end of class
