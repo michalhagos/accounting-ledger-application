@@ -142,7 +142,7 @@ public class AccountingLedgerApp {
                     reportYearToDate();
                     break;
                 case 4:
-                    System.out.println("call Previous Year method  ");
+                    reportPreviousYear();
                     break;
                 case 5:
                     System.out.println("call Search Vendor method  ");
@@ -330,6 +330,24 @@ public class AccountingLedgerApp {
             }
         }
     }
+
+    public static void reportPreviousYear() {
+        // load all transactions from the csv file into the ArrayList
+        loadFromFile();
+        // subtract 1 from the current year to get last year
+        int lastYear = LocalDateTime.now().getYear() - 1;
+        // loop through each transaction and check if it belongs to last year
+        for (Transaction transaction : transactions) {
+            // parse the date string into a LocalDate object so we can compare it
+            LocalDate date = LocalDate.parse(transaction.getDate());
+            // only print if the transaction year matches last year
+            if (date.getYear() == lastYear) {
+                System.out.println(transaction);
+            }
+        }
+    }
+
+
 
 } // end of class
 
