@@ -271,7 +271,15 @@ public class AccountingLedgerApp {
             }
         }
     }
-
+    // added a method to show only the payment entries on the ledger screen
+    public static void displayPaymentEntries() {
+        loadFromFile();
+        for (Transaction transaction : transactions) {
+            if (transaction.getAmount() < 0) {
+                System.out.println(transaction);
+            }
+        }
+    }
 }
 
 
