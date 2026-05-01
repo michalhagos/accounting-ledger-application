@@ -104,6 +104,7 @@ public class AccountingLedgerApp {
         }
 
     }
+
     // create a method for the report screen to be show when the user chooses R in the ledger screen
     static void reportScreen() {
 // create a boolean variable to help run the while loop
@@ -119,6 +120,7 @@ public class AccountingLedgerApp {
             System.out.println("3) Year To Date");
             System.out.println("4) Previous Year");
             System.out.println("5) Search Vendor");
+            System.out.println("6) Custom Search");
             System.out.println("0) Back");
             System.out.println("**********************");
 
@@ -143,6 +145,9 @@ public class AccountingLedgerApp {
                     break;
                 case 5:
                     reportSearchVendor();
+                    break;
+                case 6:
+                    reportCustomSearch();
                     break;
                 case 0:
                     isRunning = false;
@@ -195,7 +200,12 @@ public class AccountingLedgerApp {
                 }
             }
             //  closing the reader when done to free up some memory
+
+            // reverse the list so the newest entries appear first
+            java.util.Collections.reverse(transactions);
+            // close the buffer reader here
             bufReader.close();
+
 
         } catch (IOException e) {
             // if something goes wrong reading the file, print the error
@@ -250,7 +260,8 @@ public class AccountingLedgerApp {
         saveTransaction(deposit);
 
     }
-// added a method to show all the entries on the ledger screen
+
+    // added a method to show all the entries on the ledger screen
     public static void displayAllEntries() {
         loadFromFile();
         for (Transaction transaction : transactions) {
@@ -269,6 +280,7 @@ public class AccountingLedgerApp {
             }
         }
     }
+
     // added a method to show only the payment entries on the ledger screen
     public static void displayPaymentEntries() {
         loadFromFile();
@@ -278,6 +290,7 @@ public class AccountingLedgerApp {
             }
         }
     }
+
     public static void reportMonthToDate() {
         // load all transactions from the csv file into the ArrayList
         loadFromFile();
@@ -343,6 +356,7 @@ public class AccountingLedgerApp {
             }
         }
     }
+
     public static void reportSearchVendor() {
         // ask the user to type the vendor name they want to search for
         System.out.print("Enter vendor name to search: ");
@@ -358,7 +372,56 @@ public class AccountingLedgerApp {
             }
         }
     }
+    public static void reportCustomSearch() {
+        // ask the user for each search field, they can leave any blank to skip that filter
+        System.out.print("Start Date (yyyy-MM-dd) or press Enter to skip: ");
+        String startDate = theScanner.nextLine().trim();
 
+        System.out.print("End Date (yyyy-MM-dd) or press Enter to skip: ");
+        String endDate = theScanner.nextLine().trim();
+
+        System.out.print("Description or press Enter to skip: ");
+        String description = theScanner.nextLine().trim().toLowerCase();
+
+        System.out.print("Vendor or press Enter to skip: ");
+        String vendor = theScanner.nextLine().trim().toLowerCase();
+
+        System.out.print("Amount or press Enter to skip: ");
+        String amountInput = theScanner.nextLine().trim();
+
+        // load all transactions from the csv file into the ArrayList
+        loadFromFile();
+
+        // loop through each transaction and apply only the filters the user filled in
+        for (Transaction transaction : transactions) {
+            // parse the transaction date so we can compare it
+            LocalDate date = LocalDate.parse(transaction.getDate());
+
+            // check start date only if the user entered one
+            if (!startDate.isEmpty() && date.isBefore(LocalDate.parse(startDate))) {
+                continue;
+            }
+            // check end date only if the user entered one
+            if (!endDate.isEmpty() && date.isAfter(LocalDate.parse(endDate))) {
+                continue;
+            }
+            // check description only if the user entered one
+            if (!description.isEmpty() && !transaction.getDescription().toLowerCase().contains(description)) {
+                continue;
+            }
+            // check vendor only if the user entered one
+            if (!vendor.isEmpty() && !transaction.getVendor().toLowerCase().contains(vendor)) {
+                continue;
+            }
+            // check amount only if the user entered one
+            if (!amountInput.isEmpty() && transaction.getAmount() != Double.parseDouble(amountInput)) {
+                continue;
+            }
+
+            // if the transaction passed all filters print it
+            System.out.println(transaction);
+        }
+    }
 
 } // end of class
 
